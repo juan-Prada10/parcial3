@@ -1,4 +1,4 @@
-package co.edu.uniquindio.poo.panaderia.model;
+package main.java.co.edu.uniquindio.poo.panaderia.model;
 
 public class Panaderia {
 }
