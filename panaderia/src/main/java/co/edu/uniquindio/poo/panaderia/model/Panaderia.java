@@ -146,7 +146,7 @@ public class Panaderia {
     public boolean crearPedido(Pedido pedido) {
         Optional<Pedido> CrearPedido = buscarPedido(pedido.getCodigo());
         if (CrearPedido.isPresent()) {
-            return false;
+            throw new IllegalArgumentException("El codigo de pedido ya existe");
         } else {
             listaPedidos.add(pedido);
             return true;
@@ -195,7 +195,7 @@ public class Panaderia {
 
         if (pedido.getEstadoPedido() == EstadoPedido.ASIGNADO) {
             Empleado empleado = pedido.getEmpleado();
-            empleado.setMinutosDisponibles(empleado.getMinutosDisponibles() + pedido.getMinutosReservados());
+            empleado.setMinutosDisponibles(empleado.getMinutosDisponibles() - pedido.getMinutosReservados());
         }
 
         pedido.setEstadoPedido(EstadoPedido.CANCELADO);
