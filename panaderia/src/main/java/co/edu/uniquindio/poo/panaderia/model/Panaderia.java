@@ -9,11 +9,11 @@ public class Panaderia {
     private String NIT;
 
     private ArrayList<Empleado> listaEmpleados = new ArrayList<>();
-<<<<<<< HEAD
+
     private ArrayList<Pedido> listaPedidos = new ArrayList<Pedido>();
-=======
+
     private ArrayList<Pedido> listaPedidos = new ArrayList<>();
->>>>>>> 64f5857f69aad6bb614a9d5f60ef1136f01c7d16
+
 
     public Panaderia(String nombre, String NIT) {
         this.nombre = nombre;
