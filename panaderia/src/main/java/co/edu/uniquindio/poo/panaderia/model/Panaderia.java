@@ -181,9 +181,13 @@ public class Panaderia {
 
     //1.Registrar pedido
     public boolean registrarPedido(Pedido pedido){
-        if(crearPedido(pedido)) {
-            return true;
-        }return false;
+        try {
+       if (pedido.getCantidad()<= 0){
+           crearPedido(pedido);
+           return "Pedido creado con exito";
+       } throw new IllegalArgumentException("El pedido debe de ser mayor a cero");
+    } catch (IllegalArgumentException i){
+        return (i.getMessage());
     }
 
     //2.Asignar pedido
