@@ -4,7 +4,9 @@ import co.edu.uniquindio.poo.panaderia.model.Cajero;
 import co.edu.uniquindio.poo.panaderia.model.PanaderoArtesanal;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class Panaderia {
 
@@ -183,6 +185,44 @@ public class Panaderia {
             return true;
         }return false;
     }
+
+    //2.Asignar pedido
+    public boolean asignarPedido(String codigoPedido){
+        Optional<Pedido> pedidoEncontrado = buscarPedido(codigoPedido);
+        int mejorTiempo = 0;
+        Empleado asignado= null;
+        try {if (pedidoEncontrado.isEmpty()){
+            throw new IllegalArgumentException("El pedido no existe");
+        }
+        if (pedidoEncontrado.get().getEstadoPedido()==EstadoPedido.PENDIENTE){
+            List<Empleado> panaderosDisponibles =listaEmpleados.stream().filter(empleado -> empleado.getMinutosDisponibles()>0).collect(Collectors.toList());
+            for (Empleado empleado: panaderosDisponibles){
+                int tiempo=0;
+                if (empleado instanceof IMetodoProduccion metodoProduccion ){
+                    if(pedidoEncontrado.get().getTipoPan()==TipoPan.TRADICIONAL){
+                        tiempo = metodoProduccion.panTradicional(pedidoEncontrado.get().getCantidad());
+                    }else{tiempo= metodoProduccion.panIntegral(pedidoEncontrado.get().getCantidad());}
+
+                    if (empleado.getMinutosDisponibles()> tiempo && (asignado==null || tiempo<mejorTiempo)){
+                        asignado = empleado;
+                        mejorTiempo= tiempo;
+                    }
+                }
+            }
+            if (asignado==null){
+                throw new IllegalArgumentException("No hay panaderos disponibles");
+            }
+        }else {throw new IllegalArgumentException("El pedido ya fue asignado");}}catch (IllegalArgumentException i){
+            System.out.println(i.getMessage());
+        }
+        asignado.setMinutosDisponibles(asignado.getMinutosDisponibles() - mejorTiempo);
+        pedidoEncontrado.get().setEmpleado(asignado);
+        pedidoEncontrado.get().setMinutosReservados(mejorTiempo);
+        pedidoEncontrado.get().setEstadoPedido(EstadoPedido.ASIGNADO);
+        return true;
+
+    }
+
 
     //3. Cancelar un pedido
     public void cancelarPedido(String codigoPedido) {
