@@ -176,4 +176,11 @@ public class Panaderia {
         }
         return false;
     }
+
+    //1.Registrar pedido
+    public boolean registrarPedido(Pedido pedido){
+        if(crearPedido(pedido)) {
+            return true;
+        }return false;
+    }
 }
