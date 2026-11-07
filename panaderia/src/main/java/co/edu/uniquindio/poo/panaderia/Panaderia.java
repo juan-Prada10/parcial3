@@ -1,4 +1,4 @@
-package main.java.co.edu.uniquindio.poo.panaderia;
+package co.edu.uniquindio.poo.panaderia;
 
 import java.util.ArrayList;
 import java.util.Optional;
