@@ -183,4 +183,21 @@ public class Panaderia {
             return true;
         }return false;
     }
+
+    //3. Cancelar un pedido
+    public void cancelarPedido(String codigoPedido) {
+        Pedido pedido = buscarPedido(codigoPedido)
+                .orElseThrow(() -> new IllegalArgumentException("El pedido con código " + codigoPedido + " no existe."));
+
+        if (pedido.getEstadoPedido() == EstadoPedido.CANCELADO) {
+            throw new IllegalStateException("El pedido ya se encuentra cancelado.");
+        }
+
+        if (pedido.getEstadoPedido() == EstadoPedido.ASIGNADO) {
+            Empleado empleado = pedido.getEmpleado();
+            empleado.setMinutosDisponibles(empleado.getMinutosDisponibles() + pedido.getMinutosReservados());
+        }
+
+        pedido.setEstadoPedido(EstadoPedido.CANCELADO);
+    }
 }
