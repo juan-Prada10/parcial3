@@ -1,4 +1,7 @@
-package co.edu.uniquindio.poo.panaderia;
+package co.edu.uniquindio.poo.panaderia.model;
+
+import co.edu.uniquindio.poo.panaderia.model.Cajero;
+import co.edu.uniquindio.poo.panaderia.model.PanaderoArtesanal;
 
 import java.util.ArrayList;
 import java.util.Optional;
