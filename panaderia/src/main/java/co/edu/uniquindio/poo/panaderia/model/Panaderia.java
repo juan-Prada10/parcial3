@@ -11,8 +11,7 @@ public class Panaderia {
     private ArrayList<Empleado> listaEmpleados = new ArrayList<>();
 
     private ArrayList<Pedido> listaPedidos = new ArrayList<Pedido>();
-
-    private ArrayList<Pedido> listaPedidos = new ArrayList<>();
+    
 
 
     public Panaderia(String nombre, String NIT) {
