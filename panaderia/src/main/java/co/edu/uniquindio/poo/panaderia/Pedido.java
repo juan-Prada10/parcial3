@@ -1,4 +1,4 @@
-package main.java.co.edu.uniquindio.poo.panaderia.model;
+package main.java.co.edu.uniquindio.poo.panaderia;
 
 public class Pedido {
 
@@ -8,9 +8,9 @@ public class Pedido {
     private int cantidad;
     private EstadoPedido estadoPedido;
     private int minutosReservados;
-    private co.edu.uniquindio.poo.panaderia.model.Empleado empleado;
+    private Empleado empleado;
 
-    public Pedido(TipoPan tipoPan, int cantidad, String codigo, String nombreCliente, EstadoPedido estadoPedido, int minutosReservados, co.edu.uniquindio.poo.panaderia.model.Empleado empleado) {
+    public Pedido(TipoPan tipoPan, int cantidad, String codigo, String nombreCliente, EstadoPedido estadoPedido, int minutosReservados, Empleado empleado) {
         this.tipoPan = tipoPan;
         this.cantidad = cantidad;
         this.codigo = codigo;
@@ -69,11 +69,11 @@ public class Pedido {
         this.minutosReservados = minutosReservados;
     }
 
-    public co.edu.uniquindio.poo.panaderia.model.Empleado getEmpleado() {
+    public Empleado getEmpleado() {
         return empleado;
     }
 
-    public void setEmpleado(co.edu.uniquindio.poo.panaderia.model.Empleado empleado) {
+    public void setEmpleado(Empleado empleado) {
         this.empleado = empleado;
     }
 

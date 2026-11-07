@@ -1,6 +1,4 @@
-package co.edu.uniquindio.poo.panaderia.model;
-
-import main.java.co.edu.uniquindio.poo.panaderia.model.Pedido;
+package main.java.co.edu.uniquindio.poo.panaderia;
 
 public abstract class Empleado {
 
