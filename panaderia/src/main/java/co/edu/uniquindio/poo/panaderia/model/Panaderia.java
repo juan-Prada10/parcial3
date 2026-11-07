@@ -9,9 +9,8 @@ public class Panaderia {
     private String NIT;
 
     private ArrayList<Empleado> listaEmpleados = new ArrayList<>();
-
     private ArrayList<Pedido> listaPedidos = new ArrayList<Pedido>();
-    
+
 
 
     public Panaderia(String nombre, String NIT) {
