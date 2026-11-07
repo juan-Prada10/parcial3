@@ -1,5 +1,7 @@
 package co.edu.uniquindio.poo.panaderia.model;
 
+import main.java.co.edu.uniquindio.poo.panaderia.model.Pedido;
+
 public abstract class Empleado {
 
     private String nombre;

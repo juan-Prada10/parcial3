@@ -4,13 +4,13 @@ public class Pedido {
 
     private String codigo;
     private String nombreCliente;
-    private final TipoPan tipoPan;
-    private final int cantidad;
+    private TipoPan tipoPan;
+    private int cantidad;
     private EstadoPedido estadoPedido;
     private int minutosReservados;
-    private Empleado empleado;
+    private co.edu.uniquindio.poo.panaderia.model.Empleado empleado;
 
-    public Pedido(TipoPan tipoPan, int cantidad, String codigo, String nombreCliente, EstadoPedido estadoPedido, int minutosReservados, Empleado empleado) {
+    public Pedido(TipoPan tipoPan, int cantidad, String codigo, String nombreCliente, EstadoPedido estadoPedido, int minutosReservados, co.edu.uniquindio.poo.panaderia.model.Empleado empleado) {
         this.tipoPan = tipoPan;
         this.cantidad = cantidad;
         this.codigo = codigo;
@@ -40,7 +40,16 @@ public class Pedido {
         return tipoPan;
     }
 
+    public TipoPan setTipoPan(TipoPan tipoPan) {
+        return this.tipoPan;
+    }
+
+
     public int getCantidad() {
+        return cantidad;
+    }
+
+    public int setCantidad(int cantidad) {
         return cantidad;
     }
 
@@ -60,11 +69,12 @@ public class Pedido {
         this.minutosReservados = minutosReservados;
     }
 
-    public Empleado getEmpleado() {
+    public co.edu.uniquindio.poo.panaderia.model.Empleado getEmpleado() {
         return empleado;
     }
 
-    public void setEmpleado(Empleado empleado) {
+    public void setEmpleado(co.edu.uniquindio.poo.panaderia.model.Empleado empleado) {
         this.empleado = empleado;
     }
+
 }

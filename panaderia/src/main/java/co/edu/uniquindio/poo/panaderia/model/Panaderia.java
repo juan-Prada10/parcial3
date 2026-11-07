@@ -9,7 +9,7 @@ public class Panaderia {
     private String NIT;
 
     private ArrayList<Empleado> listaEmpleados = new ArrayList<>();
-    private ArrayList<Pedidos> listaPedidos = new ArrayList<>();
+    private ArrayList<Pedido> listaPedidos = new ArrayList<Pedido>();
 
     public Panaderia(String nombre, String NIT) {
         this.nombre = nombre;
@@ -134,5 +134,41 @@ public class Panaderia {
         }return false;
     }
 
+    public Optional<Pedido> buscarPedido(String codigo) {
+        return listaPedidos.stream().filter(pedido -> pedido.getCodigo().equals(codigo)).findFirst();
+    }
 
+    public boolean crearPedido(Pedido pedido) {
+        Optional<Pedido> CrearPedido = buscarPedido(pedido.getCodigo());
+        if (CrearPedido.isPresent()) {
+            return false;
+        } else {
+            listaPedidos.add(pedido);
+            return true;
+        }
+    }
+
+    public boolean eliminarPedido(String codigo) {
+        Optional<Pedido> PedidoEncontrado = buscarPedido(codigo);
+        if (PedidoEncontrado.isPresent()) {
+            listaPedidos.remove(PedidoEncontrado.get());
+            return true;
+        }
+        return false;
+    }
+
+    public boolean actualizarPedido(String codigo, Pedido pedidoActualizado) {
+        Optional<Pedido> pedidoEncontrado = buscarPedido(codigo);
+        if (pedidoEncontrado.isPresent()) {
+            pedidoEncontrado.get().setCodigo(pedidoActualizado.getCodigo());
+            pedidoEncontrado.get().setNombreCliente(pedidoActualizado.getNombreCliente());
+            pedidoEncontrado.get().setTipoPan(pedidoActualizado.getTipoPan());
+            pedidoEncontrado.get().setCantidad(pedidoActualizado.getCantidad());
+            pedidoEncontrado.get().setEstadoPedido(pedidoActualizado.getEstadoPedido());
+            pedidoEncontrado.get().setMinutosReservados(pedidoActualizado.getMinutosReservados());
+            pedidoEncontrado.get().setEmpleado(pedidoActualizado.getEmpleado());
+            return true;
+        }
+        return false;
+    }
 }
