@@ -225,7 +225,7 @@ public class Panaderia {
 
 
     //3. Cancelar un pedido
-    public void cancelarPedido(String codigoPedido) {
+    public boolean cancelarPedido(String codigoPedido) {
         Pedido pedido = buscarPedido(codigoPedido)
                 .orElseThrow(() -> new IllegalArgumentException("El pedido con código " + codigoPedido + " no existe."));
 
@@ -239,5 +239,6 @@ public class Panaderia {
         }
 
         pedido.setEstadoPedido(EstadoPedido.CANCELADO);
+        return true;
     }
 }
