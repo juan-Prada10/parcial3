@@ -64,7 +64,7 @@ private Panaderia panaderia;
     //funcionalidad 2. Asignar
 
     @Test
-    void asignar_seleccionaPanaderoQueTardaMenos() {
+    void asignarPanaderoQueTardaMenos() {
 
         PanaderoArtesanal ana = new PanaderoArtesanal("Ana", null, 100, "111", "E01");
         PanaderoIndustrial carlos = new PanaderoIndustrial("Carlos", null, 45, "222", "E02");
@@ -76,12 +76,56 @@ private Panaderia panaderia;
 
         panaderia.asignarPedido("P01");
 
-      
+
         assertEquals(carlos, pedido.getEmpleado());
         assertEquals(45, pedido.getMinutosReservados());
         assertEquals(0, carlos.getMinutosDisponibles());
         assertEquals(100, ana.getMinutosDisponibles());
         assertEquals(EstadoPedido.ASIGNADO, pedido.getEstadoPedido());
+    }
+
+    @Test
+    void asignarEmpateTiempo() {
+
+        PanaderoArtesanal ana = new PanaderoArtesanal("Ana", null, 80, "111", "E01");
+        PanaderoArtesanal diana = new PanaderoArtesanal("Diana", null, 80, "222", "E02");
+        PanaderoIndustrial carlos = new PanaderoIndustrial("Carlos", null, 54, "333", "E03");
+
+        panaderia.registrarEmpleado(ana);
+        panaderia.registrarEmpleado(diana);
+        panaderia.registrarEmpleado(carlos);
+
+        Pedido pedido = new Pedido(TipoPan.INTEGRAL, 13, "P01", "Cliente 1", EstadoPedido.PENDIENTE, 0, null);
+        panaderia.registrarPedido(pedido);
+
+        panaderia.asignarPedido("P01");
+
+
+        assertEquals(ana, pedido.getEmpleado());
+        assertEquals(0, ana.getMinutosDisponibles());
+        assertEquals(80, diana.getMinutosDisponibles());
+        assertEquals(54, carlos.getMinutosDisponibles());
+    }
+
+    @Test
+    void asignaSinTiempoSuficiente() {
+
+        PanaderoIndustrial carlos = new PanaderoIndustrial("Carlos", null, 44, "111", "E01");
+        Cajero lucia = new Cajero("Lucía", null, 120, "222", "E02", "Caja 1");
+
+        panaderia.registrarEmpleado(carlos);
+        panaderia.registrarEmpleado(lucia);
+
+        Pedido pedido = new Pedido(TipoPan.TRADICIONAL, 25, "P01", "Cliente 1", EstadoPedido.PENDIENTE, 0, null);
+        panaderia.registrarPedido(pedido);
+
+        assertThrows(IllegalStateException.class, () -> {
+            panaderia.asignarPedido("P01");
+        });
+
+        assertEquals(EstadoPedido.PENDIENTE, pedido.getEstadoPedido());
+        assertEquals(44, carlos.getMinutosDisponibles());
+        assertEquals(120, lucia.getMinutosDisponibles());
     }
 }
 
