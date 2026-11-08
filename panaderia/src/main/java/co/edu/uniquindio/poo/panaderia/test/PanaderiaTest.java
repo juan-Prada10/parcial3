@@ -127,5 +127,67 @@ private Panaderia panaderia;
         assertEquals(44, carlos.getMinutosDisponibles());
         assertEquals(120, lucia.getMinutosDisponibles());
     }
+
+    // funcionalidad 3. Cancelar
+    @Test
+    void cancelar_pedidoAsignado_devuelveSoloLosMinutosDeEsePedido() {
+
+        PanaderoIndustrial carlos = new PanaderoIndustrial("Carlos", null, 120, "111", "E1");
+        panaderia.registrarEmpleado(carlos);
+
+        Pedido p01 = new Pedido(TipoPan.TRADICIONAL, 25, "P01", "Cliente 1", EstadoPedido.PENDIENTE, 0, null);
+        Pedido p02 = new Pedido(TipoPan.TRADICIONAL, 25, "P02", "Cliente 2", EstadoPedido.PENDIENTE, 0, null);
+        panaderia.registrarPedido(p01);
+        panaderia.registrarPedido(p02);
+
+
+        panaderia.asignarPedido("P01");
+        panaderia.asignarPedido("P02");
+        assertEquals(30, carlos.getMinutosDisponibles()); // 120 - 45 - 45
+
+        panaderia.cancelarPedido("P01");
+
+
+        assertEquals(75, carlos.getMinutosDisponibles());
+        assertEquals(EstadoPedido.CANCELADO, panaderia.buscarPedido("P01").get().getEstadoPedido());
+        assertEquals(EstadoPedido.ASIGNADO, panaderia.buscarPedido("P02").get().getEstadoPedido());
+    }
+    @Test
+    void cancelarPedidoPendiente() {
+
+        PanaderoArtesanal ana = new PanaderoArtesanal("Ana", null, 100, "111", "E01");
+        panaderia.registrarEmpleado(ana);
+
+        Pedido pedido = new Pedido(TipoPan.TRADICIONAL, 10, "P01", "Cliente 1", EstadoPedido.PENDIENTE, 0, null);
+        panaderia.registrarPedido(pedido);
+
+        panaderia.cancelarPedido("P01");
+
+
+        assertEquals(EstadoPedido.CANCELADO, pedido.getEstadoPedido());
+        assertEquals(1, panaderia.getListaPedidos().size());
+        assertEquals(100, ana.getMinutosDisponibles());
+    }
+
+    @Test
+    void cancelarPedidoYaCancelado() {
+
+        PanaderoIndustrial carlos = new PanaderoIndustrial("Carlos", null, 120, "111", "E01");
+        panaderia.registrarEmpleado(carlos);
+
+        Pedido pedido = new Pedido(TipoPan.TRADICIONAL, 25, "P01", "Cliente 1", EstadoPedido.PENDIENTE, 0, null);
+        panaderia.registrarPedido(pedido);
+
+        panaderia.asignarPedido("P01");
+        panaderia.cancelarPedido("P01");
+        assertEquals(120, carlos.getMinutosDisponibles());
+
+        assertThrows(IllegalStateException.class, () -> {
+            panaderia.cancelarPedido("P01");
+        });
+
+        assertEquals(120, carlos.getMinutosDisponibles());
+        assertEquals(EstadoPedido.CANCELADO, panaderia.buscarPedido("P01").get().getEstadoPedido());
+    }
 }
 
