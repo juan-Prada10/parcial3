@@ -15,7 +15,6 @@ public class PanaderiaTest {
 
 
 @Test
-@Test
 void testRegistrarPedido() {
     PanaderoArtesanal ana = new PanaderoArtesanal("Ana", null, 100, "12345", "E01");
     panaderia.crearPanaderoArtesanal(ana);
