@@ -1,7 +1,6 @@
 package main.java.co.edu.uniquindio.poo.panaderia.test;
 import static org.junit.jupiter.api.Assertions.*;
-import java.time.LocalDate;
-import java.util.logging.Logger;
+
 import org.junit.jupiter.api.Test;
 
 public class PanaderiaTest {
@@ -19,9 +18,9 @@ private Panaderia panaderia;
     void setUp() {
         panaderia = new Panaderia("El Trigal", "900123456-7");
     }
-
+   // funcionalidad 1. Registrar pedido
     @Test
-    void registrar_pedidoValido_quedaPendienteYConservaCantidad() {
+    void registrarPedidoValido() {
         PanaderoArtesanal ana = new PanaderoArtesanal("Ana", null, 100, "12345", "E01");
         panaderia.crearPanaderoArtesanal(ana);
         Pedido pedido = new Pedido(TipoPan.TRADICIONAL, 25, "P01", "Cliente Ejemplo",
@@ -34,5 +33,33 @@ private Panaderia panaderia;
         assertEquals(25, guardado.getCantidad());
         assertEquals(100, ana.getMinutosDisponibles());
     }
+
+    @Test
+    void testRegistrarPedidoCodigoDuplicadoDespuesDeCancelar() {
+        Pedido pedido1 = new Pedido("P01", "Cliente 1", TipoPan.TRADICIONAL, 25);
+        panaderia.registrarPedido(pedido1);
+        panaderia.cancelarPedido("P01");
+
+        Pedido pedidoDuplicado = new Pedido("P01", "Cliente 2", TipoPan.INTEGRAL, 10);
+
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            panaderia.registrarPedido(pedidoDuplicado);
+        });
+
+        assertEquals(1, panaderia.getHistorialPedidos().size());
+        assertEquals(EstadoPedido.CANCELADO, panaderia.buscarPedido("P01").get().getEstadoPedido());
+    }
+
+    @Test
+    void registrar_cantidadCero_lanzaExcepcionYHistorialVacio() {
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            new Pedido(TipoPan.TRADICIONAL, 0, "P01", "Cliente Ejemplo", EstadoPedido.PENDIENTE, 0, null);
+        });
+        
+        assertTrue(panaderia.getListaPedidos().isEmpty());
+    }
+
 }
 
