@@ -61,5 +61,27 @@ private Panaderia panaderia;
         assertTrue(panaderia.getListaPedidos().isEmpty());
     }
 
+    //funcionalidad 2. Asignar
+
+    @Test
+    void asignar_seleccionaPanaderoQueTardaMenos() {
+
+        PanaderoArtesanal ana = new PanaderoArtesanal("Ana", null, 100, "111", "E01");
+        PanaderoIndustrial carlos = new PanaderoIndustrial("Carlos", null, 45, "222", "E02");
+        panaderia.registrarEmpleado(ana);
+        panaderia.registrarEmpleado(carlos);
+
+        Pedido pedido = new Pedido(TipoPan.TRADICIONAL, 25, "P01", "Cliente 1", EstadoPedido.PENDIENTE, 0, null);
+        panaderia.registrarPedido(pedido);
+
+        panaderia.asignarPedido("P01");
+
+      
+        assertEquals(carlos, pedido.getEmpleado());
+        assertEquals(45, pedido.getMinutosReservados());
+        assertEquals(0, carlos.getMinutosDisponibles());
+        assertEquals(100, ana.getMinutosDisponibles());
+        assertEquals(EstadoPedido.ASIGNADO, pedido.getEstadoPedido());
+    }
 }
 
