@@ -52,12 +52,12 @@ private Panaderia panaderia;
     }
 
     @Test
-    void registrar_cantidadCero_lanzaExcepcionYHistorialVacio() {
+    void registrarCantidadCero() {
 
         assertThrows(IllegalArgumentException.class, () -> {
             new Pedido(TipoPan.TRADICIONAL, 0, "P01", "Cliente Ejemplo", EstadoPedido.PENDIENTE, 0, null);
         });
-        
+
         assertTrue(panaderia.getListaPedidos().isEmpty());
     }
 
