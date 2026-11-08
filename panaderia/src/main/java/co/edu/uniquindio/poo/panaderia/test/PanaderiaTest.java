@@ -1,7 +1,18 @@
 package main.java.co.edu.uniquindio.poo.panaderia.test;
-import static org.junit.jupiter.api.Assertions.*;
-
+import co.edu.uniquindio.poo.panaderia.model.Cajero;
+import co.edu.uniquindio.poo.panaderia.model.EstadoPedido;
+import co.edu.uniquindio.poo.panaderia.model.Panaderia;
+import co.edu.uniquindio.poo.panaderia.model.PanaderoArtesanal;
+import co.edu.uniquindio.poo.panaderia.model.PanaderoIndustrial;
+import co.edu.uniquindio.poo.panaderia.model.Pedido;
+import co.edu.uniquindio.poo.panaderia.model.TipoPan;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class PanaderiaTest {
 /**
@@ -18,45 +29,43 @@ private Panaderia panaderia;
     void setUp() {
         panaderia = new Panaderia("El Trigal", "900123456-7");
     }
+
+
    // funcionalidad 1. Registrar pedido
+   @Test
+   void registraPedidoPendienteSinReservarTiempo() {
+       PanaderoArtesanal ana = artesanal("Ana", 100, "E01");
+       panaderia.crearPanaderoArtesanal(ana);
+       Pedido pedido = pedido("P01", TipoPan.TRADICIONAL, 25);
+
+       assertTrue(panaderia.registrarPedido(pedido));
+
+       assertEquals(EstadoPedido.PENDIENTE, pedido.getEstadoPedido());
+       assertEquals(25, pedido.getCantidad());
+       assertEquals(1, panaderia.getListaPedidos().size());
+       assertEquals(100, ana.getMinutosDisponibles());
+       assertNull(pedido.getEmpleado());
+       assertEquals(0, pedido.getMinutosReservados());
+   }
+
     @Test
-    void registrarPedidoValido() {
-        PanaderoArtesanal ana = new PanaderoArtesanal("Ana", null, 100, "12345", "E01");
-        panaderia.crearPanaderoArtesanal(ana);
-        Pedido pedido = new Pedido(TipoPan.TRADICIONAL, 25, "P01", "Cliente Ejemplo",
-                EstadoPedido.PENDIENTE, 0, null);
-
-        assertTrue(panaderia.registrarPedido(pedido));
-
-        Pedido guardado = panaderia.buscarPedido("P01").get();
-        assertEquals(EstadoPedido.PENDIENTE, guardado.getEstadoPedido());
-        assertEquals(25, guardado.getCantidad());
-        assertEquals(100, ana.getMinutosDisponibles());
-    }
-
-    @Test
-    void testRegistrarPedidoCodigoDuplicadoDespuesDeCancelar() {
-        Pedido pedido1 = new Pedido("P01", "Cliente 1", TipoPan.TRADICIONAL, 25);
-        panaderia.registrarPedido(pedido1);
+    void rechazaCodigoReutilizadoAunqueElPedidoEsteCancelado() {
+        Pedido original = pedido("P01", TipoPan.TRADICIONAL, 25);
+        panaderia.registrarPedido(original);
         panaderia.cancelarPedido("P01");
 
-        Pedido pedidoDuplicado = new Pedido("P01", "Cliente 2", TipoPan.INTEGRAL, 10);
+        assertThrows(IllegalArgumentException.class,
+                () -> panaderia.registrarPedido(pedido("P01", TipoPan.INTEGRAL, 10)));
 
-
-        assertThrows(IllegalArgumentException.class, () -> {
-            panaderia.registrarPedido(pedidoDuplicado);
-        });
-
-        assertEquals(1, panaderia.getHistorialPedidos().size());
-        assertEquals(EstadoPedido.CANCELADO, panaderia.buscarPedido("P01").get().getEstadoPedido());
+        assertEquals(1, panaderia.getListaPedidos().size());
+        assertEquals(EstadoPedido.CANCELADO, original.getEstadoPedido());
     }
 
-    @Test
-    void registrarCantidadCero() {
 
-        assertThrows(IllegalArgumentException.class, () -> {
-            new Pedido(TipoPan.TRADICIONAL, 0, "P01", "Cliente Ejemplo", EstadoPedido.PENDIENTE, 0, null);
-        });
+    @Test
+    void rechazaCantidadCeroYDejaVacioElHistorial() {
+        assertThrows(IllegalArgumentException.class,
+                () -> panaderia.registrarPedido(pedido("P01", TipoPan.TRADICIONAL, 0)));
 
         assertTrue(panaderia.getListaPedidos().isEmpty());
     }
@@ -64,130 +73,120 @@ private Panaderia panaderia;
     //funcionalidad 2. Asignar
 
     @Test
-    void asignarPanaderoQueTardaMenos() {
-
-        PanaderoArtesanal ana = new PanaderoArtesanal("Ana", null, 100, "111", "E01");
-        PanaderoIndustrial carlos = new PanaderoIndustrial("Carlos", null, 45, "222", "E02");
-        panaderia.registrarEmpleado(ana);
-        panaderia.registrarEmpleado(carlos);
-
-        Pedido pedido = new Pedido(TipoPan.TRADICIONAL, 25, "P01", "Cliente 1", EstadoPedido.PENDIENTE, 0, null);
+    void asignaAlPanaderoElegibleQueTardaMenos() {
+        PanaderoArtesanal ana = artesanal("Ana", 100, "E01");
+        PanaderoIndustrial carlos = industrial("Carlos", 45, "E02");
+        panaderia.crearPanaderoArtesanal(ana);
+        panaderia.crearPanaderoIndustrial(carlos);
+        Pedido pedido = pedido("P01", TipoPan.TRADICIONAL, 25);
         panaderia.registrarPedido(pedido);
 
-        panaderia.asignarPedido("P01");
-
+        assertTrue(panaderia.asignarPedido("P01"));
 
         assertEquals(carlos, pedido.getEmpleado());
         assertEquals(45, pedido.getMinutosReservados());
+        assertEquals(EstadoPedido.ASIGNADO, pedido.getEstadoPedido());
         assertEquals(0, carlos.getMinutosDisponibles());
         assertEquals(100, ana.getMinutosDisponibles());
-        assertEquals(EstadoPedido.ASIGNADO, pedido.getEstadoPedido());
     }
 
     @Test
-    void asignarEmpateTiempo() {
-
-        PanaderoArtesanal ana = new PanaderoArtesanal("Ana", null, 80, "111", "E01");
-        PanaderoArtesanal diana = new PanaderoArtesanal("Diana", null, 80, "222", "E02");
-        PanaderoIndustrial carlos = new PanaderoIndustrial("Carlos", null, 54, "333", "E03");
-
-        panaderia.registrarEmpleado(ana);
-        panaderia.registrarEmpleado(diana);
-        panaderia.registrarEmpleado(carlos);
-
-        Pedido pedido = new Pedido(TipoPan.INTEGRAL, 13, "P01", "Cliente 1", EstadoPedido.PENDIENTE, 0, null);
+    void anteEmpateAsignaAlPanaderoPrimeroEnLaLista() {
+        PanaderoArtesanal ana = artesanal("Ana", 80, "E01");
+        PanaderoArtesanal diana = artesanal("Diana", 80, "E02");
+        PanaderoIndustrial carlos = industrial("Carlos", 54, "E03");
+        panaderia.crearPanaderoArtesanal(ana);
+        panaderia.crearPanaderoArtesanal(diana);
+        panaderia.crearPanaderoIndustrial(carlos);
+        Pedido pedido = pedido("P01", TipoPan.INTEGRAL, 13);
         panaderia.registrarPedido(pedido);
 
         panaderia.asignarPedido("P01");
 
-
         assertEquals(ana, pedido.getEmpleado());
+        assertEquals(80, pedido.getMinutosReservados());
+        assertEquals(EstadoPedido.ASIGNADO, pedido.getEstadoPedido());
         assertEquals(0, ana.getMinutosDisponibles());
         assertEquals(80, diana.getMinutosDisponibles());
         assertEquals(54, carlos.getMinutosDisponibles());
     }
-
     @Test
-    void asignaSinTiempoSuficiente() {
-
-        PanaderoIndustrial carlos = new PanaderoIndustrial("Carlos", null, 44, "111", "E01");
+    void noAsignaSiNadieTieneTiempoSuficienteNiAlCajero() {
+        PanaderoIndustrial carlos = industrial("Carlos", 44, "E01");
         Cajero lucia = new Cajero("Lucía", null, 120, "222", "E02", "Caja 1");
-
-        panaderia.registrarEmpleado(carlos);
-        panaderia.registrarEmpleado(lucia);
-
-        Pedido pedido = new Pedido(TipoPan.TRADICIONAL, 25, "P01", "Cliente 1", EstadoPedido.PENDIENTE, 0, null);
+        panaderia.crearPanaderoIndustrial(carlos);
+        panaderia.crearCajero(lucia);
+        Pedido pedido = pedido("P01", TipoPan.TRADICIONAL, 25);
         panaderia.registrarPedido(pedido);
 
-        assertThrows(IllegalStateException.class, () -> {
-            panaderia.asignarPedido("P01");
-        });
+        assertThrows(IllegalStateException.class, () -> panaderia.asignarPedido("P01"));
 
         assertEquals(EstadoPedido.PENDIENTE, pedido.getEstadoPedido());
+        assertNull(pedido.getEmpleado());
+        assertEquals(0, pedido.getMinutosReservados());
         assertEquals(44, carlos.getMinutosDisponibles());
         assertEquals(120, lucia.getMinutosDisponibles());
     }
 
     // funcionalidad 3. Cancelar
     @Test
-    void cancelar_pedidoAsignado_devuelveSoloLosMinutosDeEsePedido() {
-
-        PanaderoIndustrial carlos = new PanaderoIndustrial("Carlos", null, 120, "111", "E1");
-        panaderia.registrarEmpleado(carlos);
-
-        Pedido p01 = new Pedido(TipoPan.TRADICIONAL, 25, "P01", "Cliente 1", EstadoPedido.PENDIENTE, 0, null);
-        Pedido p02 = new Pedido(TipoPan.TRADICIONAL, 25, "P02", "Cliente 2", EstadoPedido.PENDIENTE, 0, null);
-        panaderia.registrarPedido(p01);
-        panaderia.registrarPedido(p02);
-
-
+    void cancelarPedidoAsignadoDevuelveSoloSusMinutosReservados() {
+        PanaderoIndustrial carlos = industrial("Carlos", 120, "E01");
+        panaderia.crearPanaderoIndustrial(carlos);
+        Pedido primero = pedido("P01", TipoPan.TRADICIONAL, 25);
+        Pedido segundo = pedido("P02", TipoPan.TRADICIONAL, 25);
+        panaderia.registrarPedido(primero);
+        panaderia.registrarPedido(segundo);
         panaderia.asignarPedido("P01");
         panaderia.asignarPedido("P02");
-        assertEquals(30, carlos.getMinutosDisponibles()); // 120 - 45 - 45
 
+        assertEquals(30, carlos.getMinutosDisponibles());
         panaderia.cancelarPedido("P01");
 
-
         assertEquals(75, carlos.getMinutosDisponibles());
-        assertEquals(EstadoPedido.CANCELADO, panaderia.buscarPedido("P01").get().getEstadoPedido());
-        assertEquals(EstadoPedido.ASIGNADO, panaderia.buscarPedido("P02").get().getEstadoPedido());
+        assertEquals(EstadoPedido.CANCELADO, primero.getEstadoPedido());
+        assertEquals(EstadoPedido.ASIGNADO, segundo.getEstadoPedido());
     }
+
     @Test
-    void cancelarPedidoPendiente() {
-
-        PanaderoArtesanal ana = new PanaderoArtesanal("Ana", null, 100, "111", "E01");
-        panaderia.registrarEmpleado(ana);
-
-        Pedido pedido = new Pedido(TipoPan.TRADICIONAL, 10, "P01", "Cliente 1", EstadoPedido.PENDIENTE, 0, null);
+    void cancelarPedidoPendienteLoConservaEnHistorialSinCambiarDisponibilidad() {
+        PanaderoArtesanal ana = artesanal("Ana", 100, "E01");
+        panaderia.crearPanaderoArtesanal(ana);
+        Pedido pedido = pedido("P01", TipoPan.TRADICIONAL, 10);
         panaderia.registrarPedido(pedido);
 
         panaderia.cancelarPedido("P01");
-
 
         assertEquals(EstadoPedido.CANCELADO, pedido.getEstadoPedido());
         assertEquals(1, panaderia.getListaPedidos().size());
         assertEquals(100, ana.getMinutosDisponibles());
     }
-
     @Test
-    void cancelarPedidoYaCancelado() {
-
-        PanaderoIndustrial carlos = new PanaderoIndustrial("Carlos", null, 120, "111", "E01");
-        panaderia.registrarEmpleado(carlos);
-
-        Pedido pedido = new Pedido(TipoPan.TRADICIONAL, 25, "P01", "Cliente 1", EstadoPedido.PENDIENTE, 0, null);
+    void segundoIntentoDeCancelarNoDevuelveDeNuevoElTiempo() {
+        PanaderoIndustrial carlos = industrial("Carlos", 120, "E01");
+        panaderia.crearPanaderoIndustrial(carlos);
+        Pedido pedido = pedido("P01", TipoPan.TRADICIONAL, 25);
         panaderia.registrarPedido(pedido);
-
         panaderia.asignarPedido("P01");
         panaderia.cancelarPedido("P01");
-        assertEquals(120, carlos.getMinutosDisponibles());
-
-        assertThrows(IllegalStateException.class, () -> {
-            panaderia.cancelarPedido("P01");
-        });
 
         assertEquals(120, carlos.getMinutosDisponibles());
-        assertEquals(EstadoPedido.CANCELADO, panaderia.buscarPedido("P01").get().getEstadoPedido());
+        assertThrows(IllegalStateException.class, () -> panaderia.cancelarPedido("P01"));
+
+        assertEquals(120, carlos.getMinutosDisponibles());
+        assertEquals(EstadoPedido.CANCELADO, pedido.getEstadoPedido());
+    }
+
+    private Pedido pedido(String codigo, TipoPan tipoPan, int cantidad) {
+        return new Pedido(tipoPan, cantidad, codigo, "Cliente", EstadoPedido.PENDIENTE, 0, null);
+    }
+
+    private PanaderoArtesanal artesanal(String nombre, int minutos, String codigo) {
+        return new PanaderoArtesanal(nombre, null, minutos, codigo, codigo);
+    }
+
+    private PanaderoIndustrial industrial(String nombre, int minutos, String codigo) {
+        return new PanaderoIndustrial(nombre, null, minutos, codigo, codigo);
     }
 }
 
