@@ -196,27 +196,29 @@ public class Panaderia {
         int mejorTiempo = 0;
         Empleado asignado= null;
         try {if (pedidoEncontrado.isEmpty()){
-            throw new IllegalArgumentException("El pedido no existe");
-        }
-        if (pedidoEncontrado.get().getEstadoPedido()==EstadoPedido.PENDIENTE){
-            List<Empleado> panaderosDisponibles =listaEmpleados.stream().filter(empleado -> empleado.getMinutosDisponibles()>0).collect(Collectors.toList());
-            for (Empleado empleado: panaderosDisponibles){
-                int tiempo=0;
-                if (empleado instanceof IMetodoProduccion metodoProduccion ){
-                    if(pedidoEncontrado.get().getTipoPan()==TipoPan.TRADICIONAL){
-                        tiempo = metodoProduccion.panTradicional(pedidoEncontrado.get().getCantidad());
-                    }else{tiempo= metodoProduccion.panIntegral(pedidoEncontrado.get().getCantidad());}
+                throw new IllegalArgumentException("El pedido no existe");
+            }
+            if (pedidoEncontrado.get().getEstadoPedido()==EstadoPedido.PENDIENTE){
+                List<Empleado> panaderosDisponibles =listaEmpleados.stream().filter(empleado -> empleado.getMinutosDisponibles()>0).collect(Collectors.toList());
+                for (Empleado empleado: panaderosDisponibles){
+                    int tiempo=0;
+                    if (empleado instanceof IMetodoProduccion metodoProduccion ){
+                        if(pedidoEncontrado.get().getTipoPan()==TipoPan.TRADICIONAL){
+                            tiempo = metodoProduccion.panTradicional(pedidoEncontrado.get().getCantidad());
+                        }else{tiempo= metodoProduccion.panIntegral(pedidoEncontrado.get().getCantidad());}
 
-                    if (empleado.getMinutosDisponibles()> tiempo && (asignado==null || tiempo<mejorTiempo)){
-                        asignado = empleado;
-                        mejorTiempo= tiempo;
+                        if (empleado.getMinutosDisponibles()> tiempo && (asignado==null || tiempo<mejorTiempo)){
+                            asignado = empleado;
+                            mejorTiempo= tiempo;
+                        }
                     }
                 }
-            }
-            if (asignado==null){
-                throw new IllegalArgumentException("No hay panaderos disponibles");
-            }
-        }else {throw new IllegalArgumentException("El pedido ya fue asignado");}}catch (IllegalArgumentException i){
+                if (asignado==null){
+                    throw new IllegalArgumentException("No hay panaderos disponibles");
+                }
+            }else {throw new IllegalArgumentException("El pedido ya fue asignado");}
+        }
+        catch (IllegalArgumentException i){
             System.out.println(i.getMessage());
         }
         asignado.setMinutosDisponibles(asignado.getMinutosDisponibles() - mejorTiempo);

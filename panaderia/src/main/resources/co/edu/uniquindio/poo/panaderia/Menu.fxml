@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.edu.uniquindio.poo.panaderia.viewController.MenuViewController">
+   <children>
+      <Text layoutX="253.0" layoutY="70.0" strokeType="OUTSIDE" strokeWidth="0.0" text="El Trigal" wrappingWidth="91.6396484375">
+         <font>
+            <Font size="23.0" />
+         </font>
+      </Text>
+      <Text layoutX="139.0" layoutY="117.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Seleccione que accion desea realizar">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Text>
+      <Separator layoutX="-9.0" layoutY="76.0" prefHeight="12.0" prefWidth="616.0">
+         <effect>
+            <Lighting>
+               <bumpInput>
+                  <ColorAdjust />
+               </bumpInput>
+               <light>
+                  <Light.Distant color="#eed200" />
+               </light>
+            </Lighting>
+         </effect>
+      </Separator>
+      <Button fx:id="btnRegistrarPedido" layoutX="177.0" layoutY="148.0" mnemonicParsing="false" onAction="#registrarPedidoEvent" prefHeight="52.0" prefWidth="244.0" text="Registrar un pedido">
+         <font>
+            <Font size="20.0" />
+         </font>
+         <effect>
+            <Lighting diffuseConstant="2.0" specularConstant="2.0" specularExponent="40.0" surfaceScale="10.0">
+               <bumpInput>
+                  <ColorAdjust />
+               </bumpInput>
+               <light>
+                  <Light.Distant color="#90d5ff" />
+               </light>
+            </Lighting>
+         </effect>
+      </Button>
+      <Button fx:id="btnAsignarPedido" layoutX="177.0" layoutY="220.0" mnemonicParsing="false" onAction="#asignarPedidoEvent" prefHeight="52.0" prefWidth="244.0" text="Asignar un pedido ">
+         <font>
+            <Font size="20.0" />
+         </font>
+         <effect>
+            <Lighting diffuseConstant="2.0">
+               <bumpInput>
+                  <ColorAdjust />
+               </bumpInput>
+               <light>
+                  <Light.Distant color="#90d5ff" />
+               </light>
+            </Lighting>
+         </effect>
+      </Button>
+      <Button fx:id="btnCancelarPedido" layoutX="177.0" layoutY="297.0" mnemonicParsing="false" onAction="#cancelarPedidoEvent" prefHeight="52.0" prefWidth="244.0" text="Cancelar un pedido">
+         <font>
+            <Font size="20.0" />
+         </font>
+         <effect>
+            <Lighting diffuseConstant="2.0" surfaceScale="10.0">
+               <bumpInput>
+                  <ColorAdjust />
+               </bumpInput>
+               <light>
+                  <Light.Distant color="#90d5ff" />
+               </light>
+            </Lighting>
+         </effect>
+      </Button>
+      <Text layoutX="37.0" layoutY="39.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Bienvenido a la gestion de pedidos de la panaderia ">
+         <font>
+            <Font size="23.0" />
+         </font>
+      </Text>
+   </children>
+   <effect>
+      <Lighting diffuseConstant="2.0" specularConstant="0.17" specularExponent="0.0" surfaceScale="10.0">
+         <bumpInput>
+            <ColorAdjust brightness="0.41" contrast="-0.41" hue="0.43" saturation="-0.15" />
+         </bumpInput>
+         <light>
+            <Light.Distant color="#ffffffd6" />
+         </light>
+      </Lighting>
+   </effect>
+</AnchorPane>

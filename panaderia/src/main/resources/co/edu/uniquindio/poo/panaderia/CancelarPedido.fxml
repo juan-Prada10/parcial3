@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.edu.uniquindio.poo.panaderia.viewController.CancelarPedidoViewController">
+   <children>
+      <Text layoutX="200.0" layoutY="57.0" strokeType="OUTSIDE" strokeWidth="0.0" text="CancelarPedido">
+         <font>
+            <Font size="29.0" />
+         </font>
+      </Text>
+      <TextField fx:id="txtCodigo" layoutX="162.0" layoutY="98.0" prefHeight="31.0" prefWidth="276.0" promptText="Ingrese el codigo del pedido a eliminar" />
+      <Button fx:id="btnCancelarPedido" layoutX="261.0" layoutY="279.0" mnemonicParsing="false" onAction="#cancelarPedidoEvent" text="Cancelar" />
+   </children>
+</AnchorPane>
