@@ -1,4 +1,4 @@
-package main.java.co.edu.uniquindio.poo.panaderia.test;
+package co.edu.uniquindio.poo.panaderia.test;
 import co.edu.uniquindio.poo.panaderia.model.Cajero;
 import co.edu.uniquindio.poo.panaderia.model.EstadoPedido;
 import co.edu.uniquindio.poo.panaderia.model.Panaderia;
