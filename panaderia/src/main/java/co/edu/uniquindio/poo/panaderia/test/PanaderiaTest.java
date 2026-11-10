@@ -119,7 +119,7 @@ private Panaderia panaderia;
         Pedido pedido = pedido("P01", TipoPan.TRADICIONAL, 25);
         panaderia.registrarPedido(pedido);
 
-        assertThrows(IllegalStateException.class, () -> panaderia.asignarPedido("P01"));
+        assertThrows(IllegalArgumentException.class, () -> panaderia.asignarPedido("P01"));
 
         assertEquals(EstadoPedido.PENDIENTE, pedido.getEstadoPedido());
         assertNull(pedido.getEmpleado());

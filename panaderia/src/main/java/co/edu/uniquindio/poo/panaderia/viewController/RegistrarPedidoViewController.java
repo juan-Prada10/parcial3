@@ -51,14 +51,17 @@ public class RegistrarPedidoViewController {
         int cantidad = Integer.valueOf(txtCantidad.getText());
         String codigo = txtIngresarCodigo.getText();
         String cliente= txtIngresarCliente.getText();
+        boolean registrado = false;
 
-        Pedido pedido = new Pedido(tipoPan,cantidad,codigo,cliente, EstadoPedido.PENDIENTE,0,null);
-        boolean registrado= registrarPedidoController.registrarPedido(pedido);
-        if(registrado!=true){
-            mostrarMensaje("Informacion","Ya existe un pedido con dicho codigo", Alert.AlertType.WARNING);
+        try {
+            Pedido pedido = new Pedido(tipoPan,cantidad,codigo,cliente, EstadoPedido.PENDIENTE,0,null);
+            registrado= registrarPedidoController.registrarPedido(pedido);
+        }catch (IllegalArgumentException e){
+            mostrarMensaje("Informacion",e.getMessage(), Alert.AlertType.WARNING);
+        }
 
-        }else{mostrarMensaje("Informacion","Se registro el pedido con exito", Alert.AlertType.WARNING);
-
+        if(registrado){
+            mostrarMensaje("Informacion","Se registro el pedido con exito", Alert.AlertType.WARNING);
         }
     }
 

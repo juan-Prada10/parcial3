@@ -8,15 +8,14 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
-<AnchorPane prefHeight="499.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.edu.uniquindio.poo.panaderia.viewController.RegistrarPedidoViewController">
+<AnchorPane prefHeight="439.0" prefWidth="493.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.edu.uniquindio.poo.panaderia.viewController.RegistrarPedidoViewController">
    <children>
-      <Text layoutX="145.0" layoutY="52.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ingrese el pedido a registrar">
+      <Text layoutX="92.0" layoutY="57.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ingrese el pedido a registrar">
          <font>
             <Font size="25.0" />
          </font>
       </Text>
-      <Separator layoutX="-2.0" layoutY="74.0" prefHeight="4.0" prefWidth="600.0">
+      <Separator layoutX="54.0" layoutY="80.0" prefHeight="0.0" prefWidth="385.0">
          <effect>
             <Lighting>
                <bumpInput>
@@ -28,10 +27,74 @@
             </Lighting>
          </effect>
       </Separator>
-      <TextField fx:id="txtIngresarCodigo" layoutX="187.0" layoutY="127.0" prefHeight="31.0" prefWidth="223.0" promptText="Ingrese el codigo" />
-      <TextField fx:id="txtIngresarCliente" layoutX="187.0" layoutY="200.0" prefHeight="31.0" prefWidth="223.0" promptText="Ingrese el cliente" />
-      <TextField fx:id="txtTipoPan" layoutX="188.0" layoutY="267.0" prefHeight="31.0" prefWidth="223.0" promptText="Ingrese el tipo de Pan" />
-      <TextField fx:id="txtCantidad" layoutX="189.0" layoutY="348.0" prefHeight="31.0" prefWidth="223.0" promptText="Ingrese la cantidad de pan" />
-      <Button fx:id="btnRegistrar" layoutX="261.0" layoutY="423.0" mnemonicParsing="false" onAction="#registrarEvent" text="Registrar" />
+      <TextField fx:id="txtIngresarCodigo" layoutX="139.0" layoutY="115.0" prefHeight="31.0" prefWidth="223.0" promptText="Ingrese el codigo">
+         <effect>
+            <Lighting diffuseConstant="2.0">
+               <bumpInput>
+                  <ColorAdjust />
+               </bumpInput>
+               <light>
+                  <Light.Distant color="#c99a42" />
+               </light>
+            </Lighting>
+         </effect></TextField>
+      <TextField fx:id="txtIngresarCliente" layoutX="139.0" layoutY="171.0" prefHeight="31.0" prefWidth="223.0" promptText="Ingrese el cliente">
+         <effect>
+            <Lighting diffuseConstant="2.0">
+               <bumpInput>
+                  <ColorAdjust />
+               </bumpInput>
+               <light>
+                  <Light.Distant color="#c99a42" />
+               </light>
+            </Lighting>
+         </effect></TextField>
+      <TextField fx:id="txtTipoPan" layoutX="139.0" layoutY="227.0" prefHeight="31.0" prefWidth="223.0" promptText="Ingrese el tipo de Pan">
+         <effect>
+            <Lighting diffuseConstant="2.0">
+               <bumpInput>
+                  <ColorAdjust />
+               </bumpInput>
+               <light>
+                  <Light.Distant color="#c99a42" />
+               </light>
+            </Lighting>
+         </effect></TextField>
+      <TextField fx:id="txtCantidad" layoutX="139.0" layoutY="285.0" prefHeight="31.0" prefWidth="223.0" promptText="Ingrese la cantidad de pan">
+         <effect>
+            <Lighting diffuseConstant="2.0" specularConstant="0.0" specularExponent="0.0" surfaceScale="0.89">
+               <bumpInput>
+                  <ColorAdjust />
+               </bumpInput>
+               <light>
+                  <Light.Distant color="#c99a42" />
+               </light>
+            </Lighting>
+         </effect></TextField>
+      <Button fx:id="btnRegistrar" layoutX="202.0" layoutY="349.0" mnemonicParsing="false" onAction="#registrarEvent" prefHeight="41.0" prefWidth="90.0" text="Registrar">
+         <effect>
+            <Lighting>
+               <bumpInput>
+                  <ColorAdjust />
+               </bumpInput>
+               <light>
+                  <Light.Distant color="#e0a96d" />
+               </light>
+            </Lighting>
+         </effect></Button>
    </children>
+   <effect>
+      <Lighting diffuseConstant="2.0" specularConstant="0.0" specularExponent="0.0" surfaceScale="0.4">
+         <bumpInput>
+            <ColorAdjust>
+               <input>
+                  <ColorAdjust />
+               </input>
+            </ColorAdjust>
+         </bumpInput>
+         <light>
+            <Light.Distant color="#efece6" />
+         </light>
+      </Lighting>
+   </effect>
 </AnchorPane>

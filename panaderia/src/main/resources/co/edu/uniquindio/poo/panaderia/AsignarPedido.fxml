@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.effect.*?>
 <?import javafx.scene.text.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
@@ -7,16 +8,60 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.edu.uniquindio.poo.panaderia.viewController.AsignarPedidoViewController">
+<AnchorPane prefHeight="269.0" prefWidth="512.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.edu.uniquindio.poo.panaderia.viewController.AsignarPedidoViewController">
    <children>
-      <Text layoutX="99.0" layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Asignar un pedido a panaderos disponibles">
+      <Text fill="#c68325" fontSmoothingType="LCD" layoutX="44.0" layoutY="51.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Asignar un pedido a panaderos disponibles" wrappingWidth="423.21484375">
          <font>
-            <Font size="21.0" />
+            <Font size="22.0" />
          </font>
+         <effect>
+            <Lighting specularExponent="0.0" surfaceScale="0.0">
+               <bumpInput>
+                  <ColorAdjust />
+               </bumpInput>
+               <light>
+                  <Light.Distant color="#4a3525" />
+               </light>
+            </Lighting>
+         </effect>
       </Text>
-      <Separator layoutY="73.0" prefHeight="0.0" prefWidth="601.0" />
-      <TextField fx:id="txtCodigo" layoutX="165.0" layoutY="117.0" prefHeight="31.0" prefWidth="270.0" promptText="Ingrese el Codigo del Peido a asignar" />
-      <Button fx:id="btnAsignar" layoutX="233.0" layoutY="272.0" mnemonicParsing="false" onAction="#asignarPedidoEvent" prefHeight="60.0" prefWidth="135.0" text="Asignar" />
+      <Separator layoutX="-6.0" layoutY="70.0" prefHeight="5.0" prefWidth="497.0" />
+      <TextField fx:id="txtCodigo" layoutX="121.0" layoutY="124.0" prefHeight="48.0" prefWidth="270.0" promptText="Ingrese el Codigo del Pedido a asignar">
+         <effect>
+            <Lighting diffuseConstant="2.0">
+               <bumpInput>
+                  <ColorAdjust />
+               </bumpInput>
+               <light>
+                  <Light.Distant color="#c99a42" />
+               </light>
+            </Lighting>
+         </effect></TextField>
+      <Button fx:id="btnAsignar" layoutX="188.0" layoutY="196.0" mnemonicParsing="false" onAction="#asignarPedidoEvent" prefHeight="41.0" prefWidth="135.0" text="Asignar">
+         <effect>
+            <Lighting>
+               <bumpInput>
+                  <Shadow>
+                     <input>
+                        <ColorAdjust />
+                     </input>
+                  </Shadow>
+               </bumpInput>
+               <light>
+                  <Light.Distant color="#d99b52" />
+               </light>
+            </Lighting>
+         </effect></Button>
+      <Text layoutX="161.0" layoutY="102.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ingrese el codigo del pedido" />
    </children>
+   <effect>
+      <Lighting diffuseConstant="2.0">
+         <bumpInput>
+            <ColorAdjust />
+         </bumpInput>
+         <light>
+            <Light.Distant color="#efece6" />
+         </light>
+      </Lighting>
+   </effect>
 </AnchorPane>

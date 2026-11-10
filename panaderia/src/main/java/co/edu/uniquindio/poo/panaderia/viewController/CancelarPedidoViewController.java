@@ -36,10 +36,18 @@ public class CancelarPedidoViewController {
     public void cancelarPedidoAction() {
 
         String codigo = txtCodigo.getText();
-        boolean cancelado = cancelarPedidoController.cancelarPedido(codigo);
-        if (cancelado!=true){
-            mostrarMensaje("Informacion", "El pedido no fue posible de cancelar", Alert.AlertType.WARNING);
-        }else{mostrarMensaje("Informacion", "El pedidose cancelo con exito", Alert.AlertType.WARNING);}
+        boolean cancelado=false;
+        try{
+        cancelado = cancelarPedidoController.cancelarPedido(codigo);}
+        catch (IllegalArgumentException e){
+            mostrarMensaje("informacion",e.getMessage(), Alert.AlertType.WARNING);
+        }
+        catch (IllegalStateException i){
+            mostrarMensaje("Informacion",i.getMessage(), Alert.AlertType.WARNING);
+        }
+        if (cancelado){
+            mostrarMensaje("Informacion", "El pedidose cancelo con exito", Alert.AlertType.WARNING);
+        }
     }
 
     private void mostrarMensaje(String titulo, String mensaje, Alert.AlertType alertType) {

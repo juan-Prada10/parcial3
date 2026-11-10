@@ -9,7 +9,6 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.edu.uniquindio.poo.panaderia.viewController.MenuViewController">
    <children>
       <Text layoutX="253.0" layoutY="70.0" strokeType="OUTSIDE" strokeWidth="0.0" text="El Trigal" wrappingWidth="91.6396484375">
@@ -39,12 +38,12 @@
             <Font size="20.0" />
          </font>
          <effect>
-            <Lighting diffuseConstant="2.0" specularConstant="2.0" specularExponent="40.0" surfaceScale="10.0">
+            <Lighting diffuseConstant="2.0" specularConstant="0.0" specularExponent="0.0" surfaceScale="0.0">
                <bumpInput>
                   <ColorAdjust />
                </bumpInput>
                <light>
-                  <Light.Distant color="#90d5ff" />
+                  <Light.Distant color="#d99b52" />
                </light>
             </Lighting>
          </effect>
@@ -54,12 +53,12 @@
             <Font size="20.0" />
          </font>
          <effect>
-            <Lighting diffuseConstant="2.0">
+            <Lighting diffuseConstant="2.0" specularConstant="0.0" specularExponent="40.0" surfaceScale="0.0">
                <bumpInput>
                   <ColorAdjust />
                </bumpInput>
                <light>
-                  <Light.Distant color="#90d5ff" />
+                  <Light.Distant color="#d99b52" />
                </light>
             </Lighting>
          </effect>
@@ -69,12 +68,12 @@
             <Font size="20.0" />
          </font>
          <effect>
-            <Lighting diffuseConstant="2.0" surfaceScale="10.0">
+            <Lighting diffuseConstant="2.0" specularConstant="0.0" specularExponent="40.0" surfaceScale="0.0">
                <bumpInput>
                   <ColorAdjust />
                </bumpInput>
                <light>
-                  <Light.Distant color="#90d5ff" />
+                  <Light.Distant color="#d99b52" />
                </light>
             </Lighting>
          </effect>
@@ -86,12 +85,12 @@
       </Text>
    </children>
    <effect>
-      <Lighting diffuseConstant="2.0" specularConstant="0.17" specularExponent="0.0" surfaceScale="10.0">
+      <Lighting diffuseConstant="2.0" specularConstant="0.0" specularExponent="40.0" surfaceScale="10.0">
          <bumpInput>
             <ColorAdjust brightness="0.41" contrast="-0.41" hue="0.43" saturation="-0.15" />
          </bumpInput>
          <light>
-            <Light.Distant color="#ffffffd6" />
+            <Light.Distant color="#efece6d6" />
          </light>
       </Lighting>
    </effect>

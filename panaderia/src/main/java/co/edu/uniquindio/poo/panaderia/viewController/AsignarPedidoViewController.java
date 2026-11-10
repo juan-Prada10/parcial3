@@ -41,12 +41,17 @@ public class AsignarPedidoViewController {
 
     private void asignarPedidoAction() {
         String codigo= txtCodigo.getText();
-        boolean asignado=asignarPedidoController.asignarPedido(codigo);
-        if (asignado!=true){
-            mostrarMensaje("Informacion","No se logro asignar el pedido", Alert.AlertType.WARNING);
-        }else{
-            mostrarMensaje("Informacion","El pedido fue asignado con exito", Alert.AlertType.WARNING);}
+        boolean asignado= false;
+        try{
+            asignado=asignarPedidoController.asignarPedido(codigo);
+        } catch(IllegalArgumentException e){
+            mostrarMensaje("informacion",e.getMessage(), Alert.AlertType.WARNING);
+        }
+        if(asignado) {
+            mostrarMensaje("Informacion", "El pedido fue asignado con exito", Alert.AlertType.WARNING);
+        }
     }
+
 
     public void mostrarMensaje(String titulo, String mensaje, Alert.AlertType alertType){
         Alert alerta = new Alert(alertType);

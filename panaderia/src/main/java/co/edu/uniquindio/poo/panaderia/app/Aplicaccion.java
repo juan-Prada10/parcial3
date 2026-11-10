@@ -43,25 +43,12 @@ public class Aplicaccion extends Application {
         }
     }
 
-    private void inicializarData() {
-
-        Pedido pedido1= new Pedido(TipoPan.TRADICIONAL,50,"12345","La quinta", EstadoPedido.PENDIENTE,0, null);
-        Pedido pedido2= new Pedido(TipoPan.INTEGRAL,100,"12346","Pan de bono", EstadoPedido.PENDIENTE,0, null);
-        Pedido pedido3= new Pedido(TipoPan.TRADICIONAL,200,"12347","La sexta", EstadoPedido.PENDIENTE,0, null);
-
-        Empleado empleado1= new PanaderoArtesanal("Juan",null,400,"1094671","2345");
-        Empleado empleado2= new PanaderoIndustrial("Jairo",null,400,"1094672","2346");
-        Empleado empleado3= new PanaderoArtesanal("Diego",null,400,"1094673","2347");
-        Empleado empleado4= new Cajero("Sophia",null,400,"1094674","2348","caja1");
-
-    }
 
     public static void main(String[] args) {
         launch();
     }
 
     public void asignarPedido() {
-        inicializarData();
         try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(Aplicaccion.class.getResource("/co/edu/uniquindio/poo/panaderia/AsignarPedido.fxml"));
@@ -79,7 +66,6 @@ public class Aplicaccion extends Application {
     }
 
     public void registrarPedido() {
-        inicializarData();
         try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(Aplicaccion.class.getResource("/co/edu/uniquindio/poo/panaderia/RegistrarPedido.fxml"));
@@ -97,7 +83,6 @@ public class Aplicaccion extends Application {
     }
 
     public void cancelarPedido() {
-        inicializarData();
         try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(Aplicaccion.class.getResource("/co/edu/uniquindio/poo/panaderia/CancelarPedido.fxml"));
@@ -112,6 +97,28 @@ public class Aplicaccion extends Application {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+    }
+
+    private void inicializarData() {
+
+        Pedido pedido1= new Pedido(TipoPan.TRADICIONAL,50,"12345","La quinta", EstadoPedido.PENDIENTE,0, null);
+        Pedido pedido2= new Pedido(TipoPan.INTEGRAL,100,"12346","Pan de bono", EstadoPedido.PENDIENTE,0, null);
+        Pedido pedido3= new Pedido(TipoPan.TRADICIONAL,200,"12347","La sexta", EstadoPedido.PENDIENTE,0, null);
+
+        Empleado empleado1= new PanaderoArtesanal("Juan",null,400,"1094671","2345");
+        Empleado empleado2= new PanaderoIndustrial("Jairo",null,400,"1094672","2346");
+        Empleado empleado3= new PanaderoArtesanal("Diego",null,400,"1094673","2347");
+        Empleado empleado4= new Cajero("Sophia",null,400,"1094674","2348","caja1");
+
+        panaderia.crearPedido(pedido1);
+        panaderia.crearPedido(pedido2);
+        panaderia.crearPedido(pedido3);
+        panaderia.crearPanaderoArtesanal(empleado1);
+        panaderia.crearPanaderoArtesanal(empleado3);
+        panaderia.crearPanaderoIndustrial(empleado2);
+        panaderia.crearCajero(empleado4);
+
+
     }
 
 }

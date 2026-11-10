@@ -40,6 +40,7 @@ public class MenuViewController {
 
     @FXML
     void cancelarPedidoEvent(ActionEvent event) {
+        aplicacion.cancelarPedido();
 
     }
 

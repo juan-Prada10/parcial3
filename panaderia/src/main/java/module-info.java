@@ -2,6 +2,7 @@ module co.edu.uniquindio.poo.panaderia {
     requires javafx.controls;
     requires javafx.fxml;
     requires java.desktop;
+    requires org.junit.jupiter.api;
 
 
     opens co.edu.uniquindio.poo.panaderia to javafx.fxml;
